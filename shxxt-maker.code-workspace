@@ -1,16 +1,15 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": 
-	{
-  	"workbench.colorTheme": "Default Dark+",
-  	"editor.tabSize": 2,
-  	"eslint.format.enable": true,
-  	"editor.codeActionsOnSave": {
-    	"source.fixAll.eslint": true
-  	}
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "workbench.colorTheme": "Default Dark+",
+    "editor.tabSize": 2,
+    "eslint.format.enable": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  }
 }

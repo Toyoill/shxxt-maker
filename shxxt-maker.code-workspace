@@ -1,7 +1,16 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"name": "shxxt-maker",
+			"path": "package/shxxt-maker"
+		},
+		{
+			"name": "shxxt-connector",
+			"path": "package/shxxt-connector"
+		},
+		{
+			"name": "example",
+			"path": "example"
 		}
 	],
 	"settings": 

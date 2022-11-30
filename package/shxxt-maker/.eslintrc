@@ -9,5 +9,6 @@
         "airbnb/hooks",
         "airbnb-typescript",
         "plugin:prettier/recommended"
-    ]
+    ],
+    
 }

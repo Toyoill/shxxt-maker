@@ -1,8 +1,8 @@
 import React from "react";
-import "./App.css";
+import StyledTest from "./StyledTest";
 
 function App() {
-  return <div>test</div>;
+  return <StyledTest />;
 }
 
 export default App;

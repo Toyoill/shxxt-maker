@@ -39,4 +39,13 @@ export interface Font {
   fontFamily?: string;
 }
 
-export interface Styles extends Border, Font {}
+export interface Flex {
+  alignItems?: string;
+  justifyContent?: string;
+}
+
+export interface Styles extends Border, Font, Flex {
+  width?: string;
+  height?: string;
+  backgroundColor?: string;
+}

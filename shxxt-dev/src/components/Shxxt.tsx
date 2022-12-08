@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Row, { RowPropsType } from "./Row";
 
@@ -11,7 +11,11 @@ export interface ShxxtPropsType {
 }
 
 export default function Shxxt(props: ShxxtPropsType) {
-  props.rowPropsList[0].isTop = true;
+  useEffect(() => {
+    for (let row = 0; row < props.rowPropsList.length; row++) {
+      props.rowPropsList[row].row = row;
+    }
+  });
 
   return (
     <ShxxtStyle>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { CSSObject } from "styled-components";
 import Cell, { CellPropsType } from "./Cell";
 
@@ -9,17 +9,18 @@ const RowStyle = styled.div({
 
 export interface RowPropsType {
   cellPropsList: CellPropsType[];
-  isTop?: boolean;
+  row?: number;
   rowStyle?: CSSObject;
 }
 
 export default function Row(props: RowPropsType) {
-  props.cellPropsList[0].isLeft = true;
-  if (props.isTop) {
-    for (const cellprop of props.cellPropsList) {
-      cellprop.isTop = true;
+  useEffect(() => {
+    for (let col = 0; col < props.cellPropsList.length; col++) {
+      props.cellPropsList[col].col = col;
+      props.cellPropsList[col].row = props.row;
     }
-  }
+  });
+
   return (
     <RowStyle style={props.rowStyle}>
       {props.cellPropsList.map((cellProps) => (

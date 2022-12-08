@@ -12,8 +12,8 @@ CellStyle.defaultProps = {};
 
 export interface CellPropsType {
   cellStyle?: CSSObject;
-  isLeft?: boolean;
-  isTop?: boolean;
+  col?: number;
+  row?: number;
   content?: string | number;
 }
 
@@ -22,8 +22,8 @@ export default function Cell(props: CellPropsType) {
     <CellStyle
       style={{
         ...props.cellStyle,
-        borderLeft: props.isLeft ? "1px #333 solid" : "0px",
-        borderTop: props.isTop ? "1px #333 solid" : "0px",
+        borderLeft: props.col === 0 ? "1px #333 solid" : "0px",
+        borderTop: props.row === 0 ? "1px #333 solid" : "0px",
       }}
     >
       {props.content}

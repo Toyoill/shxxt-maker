@@ -1,20 +1,40 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { CSSObject } from "styled-components";
+import store from "./common/store/store";
 import Shxxt from "./components/Shxxt";
 import reportWebVitals from "./reportWebVitals";
 
-const array = [
-  { cellPropsList: [{ content: 1 }, { content: 1 }, { content: 1 }] },
-  { cellPropsList: [{ content: 1 }, { content: 1 }, { content: 1 }] },
-  { cellPropsList: [{ content: 1 }, { content: 1 }, { content: 1 }] },
-  { cellPropsList: [{ content: 1 }, { content: 1 }, { content: 1 }] },
-  { cellPropsList: [{ content: 1 }, { content: 1 }, { content: 1 }] },
+const dataArray = [
+  [1, 1, 1, 1],
+  [1, 1, 1, 1],
+  [1, 1, 1, 1],
+  [1, 1, 1, 1],
+];
+
+const stylesArray: CSSObject[][] = [
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
 ];
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-root.render(<Shxxt rowPropsList={array} />);
+root.render(
+  <Provider store={store}>
+    <div style={{ display: "flex" }}>
+      <Shxxt data={dataArray} styles={stylesArray} colNum={4} rowNum={4} />
+    </div>
+  </Provider>
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

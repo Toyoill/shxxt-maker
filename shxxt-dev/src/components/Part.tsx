@@ -6,6 +6,7 @@ import { RootState } from "../common/store/store";
 
 export interface PartPropsType extends PropsType {}
 
+// 이건 직접 객체에 넣어놓기 위해서 styled를 안쓰고 CSSObject로 직접 만들어놓은 사실상 css 코드
 const CellStyle: CSSObject = {
   width: "5rem",
   height: "5rem",
@@ -32,28 +33,32 @@ const IntersecionStyle: CSSObject = {
 interface PartPropType {
   col: number;
   row: number;
+  shxxtName: string;
 }
 
-export default function Part({ row, col }: PartPropType): ReactElement {
+export default function Part({
+  row,
+  col,
+  shxxtName,
+}: PartPropType): ReactElement {
   const { style, content } = useSelector((state: RootState) => {
-    return state.PropsListReducer.propsList[row][col];
+    return state.PropsListReducer[shxxtName].propsList[row][col];
   });
 
-  function getStyle(row: number, col: number, style: CSSObject): CSSObject {
+  // 인덱스에 따라 어떤 스타일을 적용할지 정해주는 함수 (styled를 안쓰는 직접적인 이유)
+  function getStyle(row: number, col: number): CSSObject {
     if (row % 2) {
-      if (col % 2) {
-        return { ...CellStyle, ...style };
-      } else {
-        return { ...VSegStyle, ...style };
-      }
+      if (col % 2) return CellStyle;
+      else return VSegStyle;
     } else {
-      if (col % 2) {
-        return { ...HSegStyle, ...style };
-      } else {
-        return { ...IntersecionStyle, ...style };
-      }
+      if (col % 2) return HSegStyle;
+      else return IntersecionStyle;
     }
   }
 
-  return <div style={getStyle(row, col, style)}>{content ? content : ""}</div>;
+  return (
+    <div style={{ ...getStyle(row, col), ...style }}>
+      {content ? content : ""}
+    </div>
+  );
 }

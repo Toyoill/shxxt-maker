@@ -13,6 +13,13 @@ const dataArray = [
   [1, 1, 1, 1],
 ];
 
+const newDataArray = [
+  [2, 1, 1, 1],
+  [1, 2, 1, 1],
+  [1, 1, 2, 1],
+  [1, 1, 1, 2],
+];
+
 const stylesArray: CSSObject[][] = [
   [{}, {}, {}, {}, {}, {}, {}, {}, {}],
   [{}, {}, {}, {}, {}, {}, {}, {}, {}],
@@ -31,7 +38,20 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <div style={{ display: "flex" }}>
-      <Shxxt data={dataArray} styles={stylesArray} colNum={4} rowNum={4} />
+      <Shxxt
+        shxxtName={"oneSheet"}
+        data={dataArray}
+        styles={stylesArray}
+        colNum={4}
+        rowNum={4}
+      />
+      <Shxxt
+        shxxtName={"twoSheet"}
+        data={newDataArray}
+        styles={stylesArray}
+        colNum={4}
+        rowNum={4}
+      />
     </div>
   </Provider>
 );

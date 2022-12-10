@@ -5,6 +5,7 @@ interface DataInfoType {
   data: (number | string)[][];
   colNum: number;
   rowNum: number;
+  shxxtName: string;
 }
 
 interface DataStyle {
@@ -26,11 +27,7 @@ export interface PropsListType {
   rowNum: number;
 }
 
-const initialState: PropsListType = {
-  propsList: [],
-  colNum: 0,
-  rowNum: 0,
-};
+const initialState: { [key: string]: PropsListType } = {};
 
 function dataToProps({
   data,
@@ -67,14 +64,12 @@ const PropsListSlice = createSlice({
   name: "propsList",
   initialState,
   reducers: {
-    createPropsList(state, action: PayloadAction<StyledDataType>) {
+    addPropsList(state, action: PayloadAction<StyledDataType>) {
       const nextState = { ...dataToProps(action.payload) };
-      state.colNum = nextState.colNum;
-      state.propsList = nextState.propsList;
-      state.rowNum = nextState.rowNum;
+      state[action.payload.shxxtName] = nextState;
     },
   },
 });
 
-export const { createPropsList } = PropsListSlice.actions;
+export const { addPropsList } = PropsListSlice.actions;
 export default PropsListSlice.reducer;

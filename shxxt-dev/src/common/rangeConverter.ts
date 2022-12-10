@@ -2,6 +2,7 @@ import { RangeType } from "./OrderType.types";
 
 // 추후에 범위를 벗어남에 따라 에러 반환하는 부분 추가할 것!!!!
 
+// range에 column이 있다면 그 부분을 우리가 필요한 index들로 바꿔서 저장하는 코드
 function columnConverter(
   column: [number, number],
   shxxtHeight: number
@@ -19,6 +20,7 @@ function columnConverter(
   return convRange;
 }
 
+// range에 row가 있는 경우에 대해 ~~
 function rowConverter(
   row: [number, number],
   shxxtWidth: number
@@ -36,6 +38,7 @@ function rowConverter(
   return convRange;
 }
 
+// range에 general이 있는 경우에 대해 ~~
 function generalConverter(
   general: [[number, number], [number, number]]
 ): [row: number, col: number][] {
@@ -54,6 +57,7 @@ function generalConverter(
   return convRange;
 }
 
+// 결과적으로 range 객체에 있는 모든 범위들을 처리하는 코드, 모든 인덱스들을 모아서 겹치는 부분을 제외해줌
 function rangeConverter(
   range: RangeType,
   shxxtHeight: number,
@@ -74,6 +78,7 @@ function rangeConverter(
   return convRange.filter((e, idx) => idx === 0 || convRange[idx - 1] !== e);
 }
 
+// 셀단위 row, col을 part 컴포넌트 단위의 row, col로 바꿔주는 코드
 export function getCellCord(
   cord: [row: number, col: number]
 ): [row: number, col: number] {

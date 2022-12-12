@@ -7,7 +7,7 @@ import Shxxt from "./components/Shxxt";
 import reportWebVitals from "./reportWebVitals";
 
 const dataArray = [
-  [1, 1, 1, 1],
+  [2, 1, 1, 1],
   [1, 1, 1, 1],
   [1, 1, 1, 1],
   [1, 1, 1, 1],

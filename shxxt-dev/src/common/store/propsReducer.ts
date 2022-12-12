@@ -3,13 +3,13 @@ import { CSSObject } from "styled-components";
 
 interface DataInfoType {
   data: (number | string)[][]; // sheet data
-  colNum: number;              // sheet column size => 나중에 변하는 값인가?
-  rowNum: number;              // sheet row size    => 얘도 나중에 변하는 값인가?
-  shxxtName: string;           // sheet name (key of sheet) => 이건 키값이니까 불변이긴 한데
+  colNum: number;              // sheet column size 
+  rowNum: number;              // sheet row size    
+  shxxtName: string;           // sheet name (key of sheet)
 }
 
 interface DataStyle {
-  styles: CSSObject[][];       // part style 2d array => 각 파트의 스타일 정보를 저장하는 배열 => '파트'라고 하는 걸로 퉁친게 조금 불편함.
+  styles: CSSObject[][];       // part style 2d array => 각 파트의 스타일 정보를 저장하는 배열
 }
 
 interface SelectedCellInfoType {

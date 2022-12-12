@@ -22,21 +22,8 @@ const ShxxtContainer = styled.div({
 
 export interface ShxxtPropsType extends StyledDataType {}
 
-/*
-
-<Shxxt
-  shxxtName={"oneSheet"}
-  data={dataArray}
-  styles={stylesArray}
-  colNum={4}
-  rowNum={4}
-/>
-
-*/
-
-
 export default function Shxxt(props: ShxxtPropsType) {
-  const { colNum, rowNum, shxxtName, selectedRow, selectedColumn } = props;
+  const { colNum, rowNum, shxxtName } = props;
   const dispatch = useDispatch();
 
   dispatch(addPropsList(props));
@@ -48,7 +35,7 @@ export default function Shxxt(props: ShxxtPropsType) {
     const partList: ReactElement[] = [];
     for (let col = 0; col < 2 * colNum + 1; col++) {
       partList.push(
-        <Part key={col} shxxtName={shxxtName} row={row} col={col} isSelected={row === selectedRow && col === selectedColumn} />
+        <Part key={col} shxxtName={shxxtName} row={row} col={col} />
       );
     }
     rowList.push(partList);

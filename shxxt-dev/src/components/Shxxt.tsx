@@ -13,7 +13,7 @@ const Row = styled.div({
 });
 
 // 전체 컴포넌트
-const ShxxtStyle = styled.div({
+const ShxxtContainer = styled.div({
   dispaly: "flex",
   flexDirection: "column",
   width: "2000px",
@@ -22,8 +22,21 @@ const ShxxtStyle = styled.div({
 
 export interface ShxxtPropsType extends StyledDataType {}
 
+/*
+
+<Shxxt
+  shxxtName={"oneSheet"}
+  data={dataArray}
+  styles={stylesArray}
+  colNum={4}
+  rowNum={4}
+/>
+
+*/
+
+
 export default function Shxxt(props: ShxxtPropsType) {
-  const { colNum, rowNum, shxxtName } = props;
+  const { colNum, rowNum, shxxtName, selectedRow, selectedColumn } = props;
   const dispatch = useDispatch();
 
   dispatch(addPropsList(props));
@@ -35,17 +48,17 @@ export default function Shxxt(props: ShxxtPropsType) {
     const partList: ReactElement[] = [];
     for (let col = 0; col < 2 * colNum + 1; col++) {
       partList.push(
-        <Part key={col} shxxtName={shxxtName} row={row} col={col} />
+        <Part key={col} shxxtName={shxxtName} row={row} col={col} isSelected={row === selectedRow && col === selectedColumn} />
       );
     }
     rowList.push(partList);
   }
 
   return (
-    <ShxxtStyle>
+    <ShxxtContainer>
       {rowList.map((row, idx) => (
         <Row key={idx}>{row.map((part) => part)}</Row>
       ))}
-    </ShxxtStyle>
+    </ShxxtContainer>
   );
 }

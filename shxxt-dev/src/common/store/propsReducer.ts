@@ -84,9 +84,16 @@ const PropsListSlice = createSlice({
       state[action.payload.shxxtName] = nextState;
     },
     changeSelectedCell(state, action: PayloadAction<SelectedCellInfo>) {
-      state[action.payload.shxxtName].selectedRow = action.payload.selectedRow;
-      state[action.payload.shxxtName].selectedColumn = action.payload.selectedColumn;
-      state[action.payload.shxxtName].propsList[action.payload.selectedRow][action.payload.selectedColumn].isSelected = true;
+      const { shxxtName, selectedRow, selectedColumn } = action.payload;
+      
+      // 굳이 이게 없어도 셀의 클릭 상태 변경은 가능.
+      // 현재 선택한 셀의 정보를 시트 전역적으로 갖고있는게 좋겠다고 생각해서 넣었었어
+      // 디자인 변경할 때 현재 어떤 셀/영역이 선택되어 있는지 정보가 필요하니까?
+      //state[shxxtName].selectedRow = selectedRow;
+      //state[shxxtName].selectedColumn = selectedColumn; 
+      
+      const prevState = state[shxxtName].propsList[selectedRow][selectedColumn].isSelected;
+      state[shxxtName].propsList[selectedRow][selectedColumn].isSelected = !prevState;
     },
   },
 });

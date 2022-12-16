@@ -1,34 +1,41 @@
 import { RangeType } from "./OrderType.types";
+import {
+  ColumnsType,
+  DividedRangeType,
+  GeneralRangeType,
+  LinePartsType,
+  PartsType,
+  RowsType,
+} from "./PartType.types";
 
-// 추후에 범위를 벗어남에 따라 에러 반환하는 부분 추가할 것!!!!
+export const HLinePartsList: LinePartsType[] = [
+  "TopBorderLine",
+  "InnerHLine",
+  "BottomBorderLine",
+];
 
-// range에 column이 있다면 그 부분을 우리가 필요한 index들로 바꿔서 저장하는 코드
-export type ColumnsType = [number, number];
-export type RowsType = [number, number];
-export type GeneralRangeType = [lu: [number, number], rd: [number, number]];
-export type ConvRangeType = [row: number, col: number][];
+export const VLinePartsList: LinePartsType[] = [
+  "LeftBorderLine",
+  "RightBorderLine",
+  "InnerVLine",
+];
 
-interface DividedRangeType {
-  TopBorderLine: ConvRangeType;
-  LeftBorderLine: ConvRangeType;
-  RightBorderLine: ConvRangeType;
-  BottomBorderLine: ConvRangeType;
-  InnerHLine: ConvRangeType;
-  InnerVLine: ConvRangeType;
-  Cells: ConvRangeType;
-}
+export const LinePartsList: LinePartsType[] = [
+  ...HLinePartsList,
+  ...VLinePartsList,
+];
 
-function defaultDividedRangeType(): DividedRangeType {
-  return {
-    TopBorderLine: [],
-    LeftBorderLine: [],
-    RightBorderLine: [],
-    BottomBorderLine: [],
-    InnerHLine: [],
-    InnerVLine: [],
-    Cells: [],
-  };
-}
+export const PartsList: PartsType[] = [...LinePartsList, "Cells"];
+
+const defaultDividedRangeType: DividedRangeType = {
+  TopBorderLine: [],
+  LeftBorderLine: [],
+  RightBorderLine: [],
+  BottomBorderLine: [],
+  InnerHLine: [],
+  InnerVLine: [],
+  Cells: [],
+};
 
 function generalConverter(general: GeneralRangeType): DividedRangeType {
   const {
@@ -39,7 +46,7 @@ function generalConverter(general: GeneralRangeType): DividedRangeType {
     InnerVLine,
     TopBorderLine,
     BottomBorderLine,
-  }: DividedRangeType = defaultDividedRangeType();
+  }: DividedRangeType = defaultDividedRangeType;
 
   const [[luRow, luCol], [rdRow, rdCol]] = general;
   const convBeginRow = luRow * 2;
@@ -118,7 +125,7 @@ function rangeConverter(
   shxxtHeight: number,
   shxxtWidth: number
 ): DividedRangeType {
-  const convRange: DividedRangeType = defaultDividedRangeType();
+  const convRange: DividedRangeType = defaultDividedRangeType;
   if (range.columns)
     range.columns.map((col) =>
       mergeRange(convRange, columnConverter(col, shxxtHeight))

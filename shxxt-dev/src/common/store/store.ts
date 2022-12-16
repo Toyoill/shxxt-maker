@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import PropsListReducer from "./propsReducer";
+
 const rootReducer = combineReducers({
   PropsListReducer,
 });

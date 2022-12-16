@@ -14,12 +14,12 @@ export interface RangeType {
 }
 
 interface LineSelectSettingType {
-  LeftBorderLine?: boolean;
-  RightborderLine?: boolean;
-  TopBorderLine?: boolean;
-  BottomBorderLine?: boolean;
-  InnerHLine?: boolean;
-  InnerVLine?: boolean;
+  LeftBorderLine: boolean;
+  RightBorderLine: boolean;
+  TopBorderLine: boolean;
+  BottomBorderLine: boolean;
+  InnerHLine: boolean;
+  InnerVLine: boolean;
 }
 
 function constructorForLSST(
@@ -32,7 +32,7 @@ function constructorForLSST(
 ): LineSelectSettingType {
   return {
     LeftBorderLine: l,
-    RightborderLine: r,
+    RightBorderLine: r,
     TopBorderLine: t,
     BottomBorderLine: b,
     InnerHLine: h,
@@ -40,7 +40,7 @@ function constructorForLSST(
   };
 }
 
-const LineSelectModes: { [key: string]: LineSelectSettingType } = {
+export const LineSelectModes: { [key: string]: LineSelectSettingType } = {
   OnlyOutLines: constructorForLSST(true, true, true, true, false, false),
   AllLines: constructorForLSST(true, true, true, true, true, true),
 };

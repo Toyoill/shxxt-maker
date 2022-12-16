@@ -45,8 +45,10 @@ root.render(
         colNum={4}
         rowNum={4}
       />
-      {/*
-      <div style={{width:300, height:200, backgroundColor:"yellow"}}>hiii</div>
+
+      <div style={{ width: 300, height: 200, backgroundColor: "yellow" }}>
+        hiii
+      </div>
       <Shxxt
         shxxtName={"twoSheet"}
         data={newDataArray}
@@ -54,7 +56,6 @@ root.render(
         colNum={4}
         rowNum={4}
       />
-      */}
     </div>
   </Provider>
 );

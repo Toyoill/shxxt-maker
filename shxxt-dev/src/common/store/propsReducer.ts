@@ -3,18 +3,18 @@ import { CSSObject } from "styled-components";
 
 interface DataInfoType {
   data: (number | string)[][]; // sheet data
-  colNum: number;              // sheet column size 
-  rowNum: number;              // sheet row size    
-  shxxtName: string;           // sheet name (key of sheet)
+  colNum: number; // sheet column size
+  rowNum: number; // sheet row size
+  shxxtName: string; // sheet name (key of sheet)
 }
 
 interface DataStyle {
-  styles: CSSObject[][];       // part style 2d array => 각 파트의 스타일 정보를 저장하는 배열
+  styles: CSSObject[][]; // part style 2d array => 각 파트의 스타일 정보를 저장하는 배열
 }
 
 interface SelectedCellInfoType {
-  selectedRow?: number;        // selected cell's row in sheet
-  selectedColumn?: number;     // selected cell's column in sheet
+  selectedRow?: number; // selected cell's row in sheet
+  selectedColumn?: number; // selected cell's column in sheet
 }
 
 interface SelectedCellInfo {
@@ -23,7 +23,10 @@ interface SelectedCellInfo {
   shxxtName: string;
 }
 
-export interface StyledDataType extends DataInfoType, DataStyle, SelectedCellInfoType {}
+export interface StyledDataType
+  extends DataInfoType,
+    DataStyle,
+    SelectedCellInfoType {}
 
 export interface PropsType {
   content?: number | string;
@@ -41,7 +44,8 @@ export interface PropsListType extends SelectedCellInfoType {
 
 const initialState: { [key: string]: PropsListType } = {};
 
-function dataToProps({ // 객체 하나를 입력 받음.
+function dataToProps({
+  // 객체 하나를 입력 받음.
   data,
   colNum,
   rowNum,
@@ -85,15 +89,17 @@ const PropsListSlice = createSlice({
     },
     changeSelectedCell(state, action: PayloadAction<SelectedCellInfo>) {
       const { shxxtName, selectedRow, selectedColumn } = action.payload;
-      
+
       // 굳이 이게 없어도 셀의 클릭 상태 변경은 가능.
       // 현재 선택한 셀의 정보를 시트 전역적으로 갖고있는게 좋겠다고 생각해서 넣었었어
       // 디자인 변경할 때 현재 어떤 셀/영역이 선택되어 있는지 정보가 필요하니까?
       //state[shxxtName].selectedRow = selectedRow;
-      //state[shxxtName].selectedColumn = selectedColumn; 
-      
-      const prevState = state[shxxtName].propsList[selectedRow][selectedColumn].isSelected;
-      state[shxxtName].propsList[selectedRow][selectedColumn].isSelected = !prevState;
+      //state[shxxtName].selectedColumn = selectedColumn;
+
+      const prevState =
+        state[shxxtName].propsList[selectedRow][selectedColumn].isSelected;
+      state[shxxtName].propsList[selectedRow][selectedColumn].isSelected =
+        !prevState;
     },
   },
 });

@@ -13,10 +13,22 @@ export interface RangeType {
   ][];
 }
 
+interface LineSelectSettingType {
+  LeftBorderLine?: boolean;
+  RightborderLine?: boolean;
+  TopBorderLine?: boolean;
+  BottomBorderLine?: boolean;
+  InnerHLine?: boolean;
+  InnerVLine?: boolean;
+}
+
+const LineSelectModes:[key:string]:LineSelectSettingType
+
 export interface OrderType {
   // 타입을 지정할 범위와 스타일을 하나의 명령으로 사용한다.
   range: RangeType;
   style: CSSObject;
+  lineSelectSetting: LineSelectSettingType;
 }
 
 // 명령으로 이루어진 리스트형 타입

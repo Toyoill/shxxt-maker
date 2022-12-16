@@ -22,7 +22,28 @@ interface LineSelectSettingType {
   InnerVLine?: boolean;
 }
 
-const LineSelectModes:[key:string]:LineSelectSettingType
+function constructorForLSST(
+  l: boolean,
+  r: boolean,
+  t: boolean,
+  b: boolean,
+  h: boolean,
+  v: boolean
+): LineSelectSettingType {
+  return {
+    LeftBorderLine: l,
+    RightborderLine: r,
+    TopBorderLine: t,
+    BottomBorderLine: b,
+    InnerHLine: h,
+    InnerVLine: v,
+  };
+}
+
+const LineSelectModes: { [key: string]: LineSelectSettingType } = {
+  OnlyOutLines: constructorForLSST(true, true, true, true, false, false),
+  AllLines: constructorForLSST(true, true, true, true, true, true),
+};
 
 export interface OrderType {
   // 타입을 지정할 범위와 스타일을 하나의 명령으로 사용한다.

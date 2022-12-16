@@ -13,7 +13,7 @@ const Row = styled.div({
 });
 
 // 전체 컴포넌트
-const ShxxtStyle = styled.div({
+const ShxxtContainer = styled.div({
   dispaly: "flex",
   flexDirection: "column",
   width: "2000px",
@@ -42,10 +42,10 @@ export default function Shxxt(props: ShxxtPropsType) {
   }
 
   return (
-    <ShxxtStyle>
+    <ShxxtContainer>
       {rowList.map((row, idx) => (
         <Row key={idx}>{row.map((part) => part)}</Row>
       ))}
-    </ShxxtStyle>
+    </ShxxtContainer>
   );
 }

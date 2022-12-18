@@ -1,26 +1,26 @@
 import { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../common/store/store";
+import { CSSObject } from "styled-components";
 import Cell from "./Cell";
 import VSeg from "./VSeg";
 import HSeg from "./HSeg";
 import Intersection from "./Intersection";
 
+
 export interface PartPropType {
+  shxxtName: string;
   col: number;
   row: number;
-  shxxtName: string;
-  content?: string | number;
+  style: CSSObject;
 }
 
 export default function Part({
+  shxxtName,
   row,
   col,
-  shxxtName,
+  style,
 }: PartPropType): ReactElement {
-  const { style, content, isSelected } = useSelector((state: RootState) => {
-    return state.PropsListReducer[shxxtName].propsList[row][col];
-  });
 
   // 인덱스에 따라 어떤 스타일을 적용할지 정해주는 함수 (styled를 안쓰는 직접적인 이유)
   function selectComponent(row: number, col: number): ReactElement {
@@ -28,43 +28,39 @@ export default function Part({
       if (col % 2) {
         return (
           <Cell
-            style={style}
+            shxxtName={shxxtName}
             row={row}
             col={col}
-            content={content}
-            isSelected={isSelected}
-            shxxtName={shxxtName}
+            style={style}
+            //content={content}
           />
         );
       } else
         return (
           <VSeg
-            style={style}
+            shxxtName={shxxtName}
             row={row}
             col={col}
-            shxxtName={shxxtName}
-            isSelected={isSelected}
+            style={style}
           />
         );
     } else {
       if (col % 2)
         return (
           <HSeg
-            style={style}
+            shxxtName={shxxtName}
             row={row}
             col={col}
-            shxxtName={shxxtName}
-            isSelected={isSelected}
+            style={style}
           />
         );
       else
         return (
           <Intersection
-            style={style}
+            shxxtName={shxxtName}
             row={row}
             col={col}
-            shxxtName={shxxtName}
-            isSelected={isSelected}
+            style={style}
           />
         );
     }

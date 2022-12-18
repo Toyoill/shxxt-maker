@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CSSObject } from "styled-components";
+import { updateNonNullChain } from "typescript";
+import { ChanRangeType, ChanRangeCellType } from "../OrderType.types";
 
 interface DataInfoType {
   data: (number | string)[][]; // sheet data
@@ -30,13 +32,13 @@ export interface PropsType {
   col: number;
   row: number;
   style: CSSObject;
-  isSelected: boolean;
 }
 
-export interface PropsListType extends SelectedCellInfoType {
+export interface PropsListType extends SelectedCellInfoType, ChanRangeType {
   propsList: PropsType[][];
   colNum: number;
   rowNum: number;
+  isDragMode: boolean;
 }
 
 const initialState: { [key: string]: PropsListType } = {};
@@ -72,7 +74,14 @@ function dataToProps({ // 객체 하나를 입력 받음.
     propsList.push(propsRow);
   }
 
-  return { propsList, colNum: convColNum, rowNum: convRowNum };
+  return {
+    propsList, 
+    colNum: convColNum, 
+    rowNum: convRowNum, 
+    isDragMode: false,
+    rangeStartCell: null,
+    rangeEndCell: null,
+  };
 }
 
 const PropsListSlice = createSlice({
@@ -83,20 +92,23 @@ const PropsListSlice = createSlice({
       const nextState = { ...dataToProps(action.payload) };
       state[action.payload.shxxtName] = nextState;
     },
-    changeSelectedCell(state, action: PayloadAction<SelectedCellInfo>) {
+    changeCellRange(state, action: PayloadAction<SelectedCellInfo>) {
       const { shxxtName, selectedRow, selectedColumn } = action.payload;
-      
-      // 굳이 이게 없어도 셀의 클릭 상태 변경은 가능.
-      // 현재 선택한 셀의 정보를 시트 전역적으로 갖고있는게 좋겠다고 생각해서 넣었었어
-      // 디자인 변경할 때 현재 어떤 셀/영역이 선택되어 있는지 정보가 필요하니까?
-      //state[shxxtName].selectedRow = selectedRow;
-      //state[shxxtName].selectedColumn = selectedColumn; 
-      
-      const prevState = state[shxxtName].propsList[selectedRow][selectedColumn].isSelected;
-      state[shxxtName].propsList[selectedRow][selectedColumn].isSelected = !prevState;
+      state[shxxtName].rangeEndCell = { row: selectedRow, col: selectedColumn } as ChanRangeCellType;
+    },
+    startToSetCellRange(state, action:PayloadAction<SelectedCellInfo>) {
+      const { shxxtName, selectedRow, selectedColumn } = action.payload;
+      state[shxxtName].rangeStartCell = { row: selectedRow, col: selectedColumn } as ChanRangeCellType;
+      state[shxxtName].rangeEndCell = { row: selectedRow, col: selectedColumn } as ChanRangeCellType;
+      state[shxxtName].isDragMode = true;
+    },
+    endToSetCellRange(state, action:PayloadAction<SelectedCellInfo>) {
+      const { shxxtName, selectedRow, selectedColumn } = action.payload;
+      state[shxxtName].rangeEndCell = { row: selectedRow, col: selectedColumn } as ChanRangeCellType;
+      state[shxxtName].isDragMode = false;
     },
   },
 });
 
-export const { addPropsList, changeSelectedCell } = PropsListSlice.actions;
+export const { addPropsList, changeCellRange, startToSetCellRange, endToSetCellRange } = PropsListSlice.actions;
 export default PropsListSlice.reducer;

@@ -13,6 +13,16 @@ export interface RangeType {
   ][];
 }
 
+export interface ChanRangeCellType {
+  row: number;
+  col: number;
+}
+
+export interface ChanRangeType {
+  rangeStartCell: ChanRangeCellType | null;
+  rangeEndCell: ChanRangeCellType | null;
+}
+
 interface LineSelectSettingType {
   LeftBorderLine?: boolean;
   RightborderLine?: boolean;

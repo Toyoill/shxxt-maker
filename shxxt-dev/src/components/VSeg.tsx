@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ExPartPropType } from "./Cell";
+import { PartPropType } from "./Part";
 
 const VSegStyle = styled.div({
   height: "5rem",
@@ -8,6 +8,6 @@ const VSegStyle = styled.div({
   backgroundColor: "#333",
 });
 
-export default function VSeg({ style, row, col }: ExPartPropType) {
+export default function VSeg({ style, row, col }: PartPropType) {
   return <VSegStyle style={style} />;
 }

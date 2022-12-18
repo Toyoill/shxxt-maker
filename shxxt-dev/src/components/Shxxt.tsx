@@ -1,4 +1,6 @@
 import React, { ReactElement } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../common/store/store";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { addPropsList, StyledDataType } from "../common/store/propsReducer";
@@ -29,13 +31,18 @@ export default function Shxxt(props: ShxxtPropsType) {
   dispatch(addPropsList(props));
 
   const rowList: ReactElement[][] = [];
+  const partStyleArray = useSelector((state: RootState) => {
+    return state.PropsListReducer[shxxtName].propsList;
+  });
+
 
   // part의 prop들로 part를 만들어놓는 코드
   for (let row = 0; row < 2 * rowNum + 1; row++) {
     const partList: ReactElement[] = [];
     for (let col = 0; col < 2 * colNum + 1; col++) {
+      const style = partStyleArray[row][col].style;
       partList.push(
-        <Part key={col} shxxtName={shxxtName} row={row} col={col} />
+        <Part key={col} shxxtName={shxxtName} row={row} col={col} style={style} />
       );
     }
     rowList.push(partList);

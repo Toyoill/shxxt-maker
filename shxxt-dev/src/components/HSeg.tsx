@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ExPartPropType } from "./Cell";
+import { PartPropType } from "./Part";
 
 const HSegStyle = styled.div({
   width: "5rem",
@@ -8,6 +8,6 @@ const HSegStyle = styled.div({
   backgroundColor: "#333",
 });
 
-export default function HSeg({ style, row, col }: ExPartPropType) {
+export default function HSeg({ style, row, col }: PartPropType) {
   return <HSegStyle style={style} />;
 }

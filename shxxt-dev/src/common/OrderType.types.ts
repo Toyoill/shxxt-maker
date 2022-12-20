@@ -3,24 +3,14 @@ import { CSSObject } from "styled-components";
 // 범위를 지정할 때 사용할 타입
 export interface RangeType {
   // column 혹은 row단위로 range를 지정하고 싶다면 시작선과 끝선을 선택해서 여러개의 column과 row를 한번에 선택해 디자인을 지정할 수 있게 해준다.
-  columns?: [begin: number, end: number][];
-  rows?: [begin: number, end: number][];
+  columns: [begin: number, end: number][];
+  rows: [begin: number, end: number][];
 
   // 셀단위로 range로 지정하고 싶다면 직사각형 모양으로 왼쪽 위와 오른쪽 아래를 골라서 직사각형 내부의 모든셀을 한번에 선택해 디자인을 지정할 수 있게 해준다.
-  general?: [
+  general: [
     lu: [luRow: number, luCol: number],
     rd: [rdRow: number, rdCol: number]
   ][];
-}
-
-export interface ChanRangeCellType {
-  row: number;
-  col: number;
-}
-
-export interface ChanRangeType {
-  rangeStartCell: ChanRangeCellType | null;
-  rangeEndCell: ChanRangeCellType | null;
 }
 
 interface LineSelectSettingType {

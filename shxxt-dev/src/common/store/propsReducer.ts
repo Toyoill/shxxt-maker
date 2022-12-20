@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CSSObject } from "styled-components";
-import { updateNonNullChain } from "typescript";
-import { ChanRangeType, ChanRangeCellType } from "../OrderType.types";
+import { RangeType } from "../OrderType.types";
 
 interface DataInfoType {
   data: (number | string)[][]; // sheet data
@@ -34,11 +33,12 @@ export interface PropsType {
   style: CSSObject;
 }
 
-export interface PropsListType extends SelectedCellInfoType, ChanRangeType {
+export interface PropsListType extends SelectedCellInfoType {
   propsList: PropsType[][];
   colNum: number;
   rowNum: number;
   isDragMode: boolean;
+  range: RangeType;
 }
 
 const initialState: { [key: string]: PropsListType } = {};
@@ -79,8 +79,11 @@ function dataToProps({ // 객체 하나를 입력 받음.
     colNum: convColNum, 
     rowNum: convRowNum, 
     isDragMode: false,
-    rangeStartCell: null,
-    rangeEndCell: null,
+    range: {
+      columns: [],
+      rows: [],
+      general: []
+    },
   };
 }
 
@@ -94,17 +97,19 @@ const PropsListSlice = createSlice({
     },
     changeCellRange(state, action: PayloadAction<SelectedCellInfo>) {
       const { shxxtName, selectedRow, selectedColumn } = action.payload;
-      state[shxxtName].rangeEndCell = { row: selectedRow, col: selectedColumn } as ChanRangeCellType;
+      const [startCellRow, startCellColumn] = state[shxxtName].range.general.pop()![0];
+      state[shxxtName].range.general.push([[startCellRow, startCellColumn], [selectedRow, selectedColumn]]);
     },
     startToSetCellRange(state, action:PayloadAction<SelectedCellInfo>) {
       const { shxxtName, selectedRow, selectedColumn } = action.payload;
-      state[shxxtName].rangeStartCell = { row: selectedRow, col: selectedColumn } as ChanRangeCellType;
-      state[shxxtName].rangeEndCell = { row: selectedRow, col: selectedColumn } as ChanRangeCellType;
       state[shxxtName].isDragMode = true;
+      state[shxxtName].range.general = [];
+      state[shxxtName].range.general.push([[selectedRow, selectedColumn], [selectedRow, selectedColumn]]);
     },
     endToSetCellRange(state, action:PayloadAction<SelectedCellInfo>) {
       const { shxxtName, selectedRow, selectedColumn } = action.payload;
-      state[shxxtName].rangeEndCell = { row: selectedRow, col: selectedColumn } as ChanRangeCellType;
+      const [startCellRow, startCellColumn] = state[shxxtName].range.general.pop()![0];
+      state[shxxtName].range.general.push([[startCellRow, startCellColumn], [selectedRow, selectedColumn]]);
       state[shxxtName].isDragMode = false;
     },
   },

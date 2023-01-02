@@ -6,6 +6,7 @@ import Cell from "./Cell";
 import VSeg from "./VSeg";
 import HSeg from "./HSeg";
 import Intersection from "./Intersection";
+import ColumnHeaderItem from "./ColumnHeaderItem";
 
 
 export interface PartPropType {
@@ -24,6 +25,8 @@ export default function Part({
 
   // 인덱스에 따라 어떤 스타일을 적용할지 정해주는 함수 (styled를 안쓰는 직접적인 이유)
   function selectComponent(row: number, col: number): ReactElement {
+    //if (row == 1 && col % 2)
+      //return <ColumnHeaderItem/>;
     if (row % 2) {
       if (col % 2) {
         return (

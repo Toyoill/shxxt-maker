@@ -5,6 +5,9 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { addPropsList, StyledDataType } from "../common/store/propsReducer";
 import Part from "./Part";
+import ColumnHeaderItem from "./ColumnHeaderItem";
+import VSeg from "./VSeg";
+import Header from "./Header";
 
 // 가로줄 하나를 위한 컴포넌트 (grid말고 flex를 쓰기에 필요했다.)
 const Row = styled.div({
@@ -22,10 +25,12 @@ const ShxxtContainer = styled.div({
   height: "2000px",
 });
 
-export interface ShxxtPropsType extends StyledDataType {}
+export interface ShxxtPropsType extends StyledDataType {
+  includeHeader: boolean;
+}
 
 export default function Shxxt(props: ShxxtPropsType) {
-  const { colNum, rowNum, shxxtName } = props;
+  const { colNum, rowNum, shxxtName, includeHeader, header } = props;
   const dispatch = useDispatch();
 
   dispatch(addPropsList(props));
@@ -35,11 +40,13 @@ export default function Shxxt(props: ShxxtPropsType) {
     return state.PropsListReducer[shxxtName].propsList;
   });
 
+  const rowRealSize = 2 * rowNum + 1;
+  const colRealSize = 2 * colNum + 1;
 
   // part의 prop들로 part를 만들어놓는 코드
-  for (let row = 0; row < 2 * rowNum + 1; row++) {
+  for (let row = 0; row < rowRealSize; row++) {
     const partList: ReactElement[] = [];
-    for (let col = 0; col < 2 * colNum + 1; col++) {
+    for (let col = 0; col < colRealSize; col++) {
       const style = partStyleArray[row][col].style;
       partList.push(
         <Part key={col} shxxtName={shxxtName} row={row} col={col} style={style} />
@@ -50,6 +57,7 @@ export default function Shxxt(props: ShxxtPropsType) {
 
   return (
     <ShxxtContainer>
+      <Header headerData={header}/>
       {rowList.map((row, idx) => (
         <Row key={idx}>{row.map((part) => part)}</Row>
       ))}

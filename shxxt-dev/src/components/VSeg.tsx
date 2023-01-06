@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { PartPropType } from "./Part";
 
 const VSegStyle = styled.div({
-  height: "5rem",
+  //height: "5rem",
   width: "3px",
   backgroundColor: "#333",
 });

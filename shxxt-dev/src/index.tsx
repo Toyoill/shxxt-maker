@@ -6,28 +6,25 @@ import store from "./common/store/store";
 import Shxxt from "./components/Shxxt";
 import reportWebVitals from "./reportWebVitals";
 
-const headerDataArray = ["data1","data2","data3","data4"];
+const headerDataArray:string[] = ["data1","data2","data3","data4"];
 
 const dataArray = [
-  [1, 1, 1, 1],
+  [2, 1, 1, 1],
   [1, 1, 1, 1],
   [1, 1, 1, 1],
   [1, 1, 1, 1],
 ];
 
-const newDataArray = [
+/*const newDataArray = [
   [2, 1, 1, 1],
   [1, 2, 1, 1],
   [1, 1, 2, 1],
   [1, 1, 1, 2],
-];
-
-const headerStylesArray: CSSObject[][] = [
-  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
-  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
-];
+];*/
 
 const stylesArray: CSSObject[][] = [
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}],
   [{}, {}, {}, {}, {}, {}, {}, {}, {}],
   [{}, {}, {}, {}, {}, {}, {}, {}, {}],
   [{}, {}, {}, {}, {}, {}, {}, {}, {}],
@@ -49,7 +46,6 @@ root.render(
         shxxtName={"oneSheet"}
         data={dataArray}
         styles={stylesArray}
-        headerStyles={headerStylesArray}
         colNum={4}
         rowNum={4}
         header={headerDataArray}

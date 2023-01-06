@@ -5,9 +5,6 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { addPropsList, StyledDataType } from "../common/store/propsReducer";
 import Part from "./Part";
-import ColumnHeaderItem from "./ColumnHeaderItem";
-import VSeg from "./VSeg";
-import Header from "./Header";
 
 // 가로줄 하나를 위한 컴포넌트 (grid말고 flex를 쓰기에 필요했다.)
 const Row = styled.div({
@@ -30,7 +27,7 @@ export interface ShxxtPropsType extends StyledDataType {
 }
 
 export default function Shxxt(props: ShxxtPropsType) {
-  const { colNum, rowNum, shxxtName, includeHeader, header } = props;
+  const { colNum, rowNum, shxxtName } = props;
   const dispatch = useDispatch();
 
   dispatch(addPropsList(props));
@@ -40,7 +37,7 @@ export default function Shxxt(props: ShxxtPropsType) {
     return state.PropsListReducer[shxxtName].propsList;
   });
 
-  const rowRealSize = 2 * rowNum + 1;
+  const rowRealSize = 2 * rowNum + 3;
   const colRealSize = 2 * colNum + 1;
 
   // part의 prop들로 part를 만들어놓는 코드
@@ -57,7 +54,6 @@ export default function Shxxt(props: ShxxtPropsType) {
 
   return (
     <ShxxtContainer>
-      <Header headerData={header}/>
       {rowList.map((row, idx) => (
         <Row key={idx}>{row.map((part) => part)}</Row>
       ))}

@@ -7,47 +7,47 @@ import { PartPropType } from "./Part";
 import { RangeType } from "../common/OrderType.types";
 
 const DefaultCellStyle: CSSObject = {
+  display: "flex",
   width: "5rem",
   height: "5rem",
+  fontSize: "24px",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 const SelectedCellStyle: CSSObject = {
+  display: "flex",
   width: "5rem",
   height: "5rem",
+  fontSize: "24px",
+  alignItems: "center",
+  justifyContent: "center",
   backgroundColor: "yellow",
 };
 
-let CellContainer = styled.div(DefaultCellStyle);
+const DefaultCellContainer = styled.div(DefaultCellStyle);
+const SelectedCellContainer = styled.div(SelectedCellStyle);
 
-/*export interface CellPropType extends PartPropType {
+export interface CellPropType extends PartPropType {
   content?: string | number;
-}*/
+}
 
 export default function Cell({
   style,
   row,
   col,
   shxxtName,
-//  content,
-}: PartPropType) {
+  //content,
+}: CellPropType) {
 
   const { isDragMode, range } = useSelector((state: RootState) => {
     return state.PropsListReducer[shxxtName];
   });
-
+  
   const content = useSelector((state: RootState) => {
+    console.log(row, col);
     return state.PropsListReducer[shxxtName].propsList[row][col].content;
   });
-
-  //const isSelected = isInRange(rangeStartCell, rangeEndCell);
-
-  const isSelected = isInRange(range);
-  
-
-  console.log(isSelected, row, col, range);
-
-  //const CellContainer = styled.div(isSelected ? SelectedCellStyle : DefaultCellStyle);
-  // 콘솔에서 경고가 너무 많이 나와서 일단 주석처리함.
 
   const dispatch = useDispatch();
 
@@ -83,28 +83,6 @@ export default function Cell({
     }));
   }
 
-  /*function isInRange(range: RangeType): boolean {
-    if (range.rows! && range.columns! && range.chanGeneral!)
-      return false;
-
-    if (range.chanGeneral!!) {
-      const { rangeStartCell, rangeEndCell } = range.chanGeneral
-      if (rangeStartCell === null || rangeEndCell === null)
-        return false;
-
-      return ((
-          (rangeStartCell.row <= row && row <= rangeEndCell.row) ||
-          (rangeEndCell.row <= row && row <= rangeStartCell.row)
-        ) && (
-          (rangeStartCell.col <= col && col <= rangeEndCell.col) ||
-          (rangeEndCell.col <= col && col <= rangeStartCell.col)
-        )
-      );
-    }
-
-    return false;
-  }*/
-
   function isInRange(range: RangeType): boolean {
     if (range.rows.length === 0 && range.columns.length === 0 && range.general.length === 0)
       return false;
@@ -124,15 +102,27 @@ export default function Cell({
     }
     return false;
   }
+  
+  const isSelected = isInRange(range);
+  console.log(isSelected, row, col, range);
 
   return (
-    <CellContainer
-      style={isSelected ? SelectedCellStyle : style} // TODO : 이렇게 되면 선택된 셀의 스타일이 교체되서 사용자 지정 스타일 적용이 안됨. 컨테이너 단에서 디자인 수정을 해야함.
+    isSelected
+    ? (<SelectedCellContainer
+      style={style} // TODO : 이렇게 되면 선택된 셀의 스타일이 교체되서 사용자 지정 스타일 적용이 안됨. 컨테이너 단에서 디자인 수정을 해야함.
       onMouseDown={(e) => onMouseDownOnCell(e)}
       onMouseEnter={(e) => onMouseEnterInCell(e)}
       onMouseUp={(e) => onMouseUpOnCell(e)}
     >
       {content}
-    </CellContainer>
+    </SelectedCellContainer>)
+    : (<DefaultCellContainer
+      style={style} // TODO : 이렇게 되면 선택된 셀의 스타일이 교체되서 사용자 지정 스타일 적용이 안됨. 컨테이너 단에서 디자인 수정을 해야함.
+      onMouseDown={(e) => onMouseDownOnCell(e)}
+      onMouseEnter={(e) => onMouseEnterInCell(e)}
+      onMouseUp={(e) => onMouseUpOnCell(e)}
+    >
+      {content}
+    </DefaultCellContainer>)
   );
 }

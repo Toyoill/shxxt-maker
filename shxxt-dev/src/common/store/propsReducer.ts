@@ -4,7 +4,7 @@ import { RangeType } from "../OrderType.types";
 
 interface DataInfoType {
   data: (number | string)[][]; // sheet data
-  header: (number | string)[]; // sheet header content
+  header: (string)[]; // sheet header content
   colNum: number;              // sheet column size 
   rowNum: number;              // sheet row size    
   shxxtName: string;           // sheet name (key of sheet)
@@ -12,7 +12,6 @@ interface DataInfoType {
 
 interface DataStyle {
   styles: CSSObject[][];       // part style 2d array => 각 파트의 스타일 정보를 저장하는 배열
-  headerStyles: CSSObject[][]; // header style 2d array
 }
 
 interface SelectedCellInfo {
@@ -25,6 +24,7 @@ export interface StyledDataType extends DataInfoType, DataStyle {} // Sheet Prop
 
 export interface PropsType {
   content?: number | string;
+  header?: string;
   col: number;
   row: number;
   style: CSSObject;
@@ -42,14 +42,15 @@ const initialState: { [key: string]: PropsListType } = {};
 
 function dataToProps({ // 객체 하나를 입력 받음.
   data,
+  header,
   colNum,
   rowNum,
   styles,
 }: StyledDataType): PropsListType {
   const propsList: PropsType[][] = [];
 
+  const convRowNum = 2 * rowNum + 3;
   const convColNum = 2 * colNum + 1;
-  const convRowNum = 2 * rowNum + 1;
 
   for (let row = 0; row < convRowNum; row++) {
     const propsRow: PropsType[] = [];
@@ -58,7 +59,8 @@ function dataToProps({ // 객체 하나를 입력 받음.
         propsRow.push({
           col,
           row,
-          content: data[Math.floor(row / 2)][Math.floor(col / 2)],
+          content: row > 1 ? data[Math.floor((row-2) / 2)][Math.floor((col) / 2)] : undefined,
+          header: row === 1 ? header[Math.floor((col) / 2)] : undefined,
           style: styles[row][col],
         } as PropsType);
       } else {

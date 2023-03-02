@@ -4,19 +4,24 @@ import { RangeType } from "../OrderType.types";
 
 interface DataInfoType {
   data: (number | string)[][]; // sheet data
-  header: (string)[]; // sheet header content
-  colNum: number;              // sheet column size 
-  rowNum: number;              // sheet row size    
-  shxxtName: string;           // sheet name (key of sheet)
+  header: string[]; // sheet header content
+  colNum: number; // sheet column size
+  rowNum: number; // sheet row size
+  shxxtName: string; // sheet name (key of sheet)
 }
 
 interface DataStyle {
-  styles: CSSObject[][];       // part style 2d array => 각 파트의 스타일 정보를 저장하는 배열
+  styles: CSSObject[][]; // part style 2d array => 각 파트의 스타일 정보를 저장하는 배열
 }
 
 interface SelectedCellInfo {
   selectedRow: number;
   selectedColumn: number;
+  shxxtName: string;
+}
+
+interface SelectedHeaderInfo {
+  headerIndex: number;
   shxxtName: string;
 }
 
@@ -40,7 +45,8 @@ export interface PropsListType {
 
 const initialState: { [key: string]: PropsListType } = {};
 
-function dataToProps({ // 객체 하나를 입력 받음.
+function dataToProps({
+  // 객체 하나를 입력 받음.
   data,
   header,
   colNum,
@@ -59,8 +65,11 @@ function dataToProps({ // 객체 하나를 입력 받음.
         propsRow.push({
           col,
           row,
-          content: row > 1 ? data[Math.floor((row-2) / 2)][Math.floor((col) / 2)] : undefined,
-          header: row === 1 ? header[Math.floor((col) / 2)] : undefined,
+          content:
+            row > 1
+              ? data[Math.floor((row - 2) / 2)][Math.floor(col / 2)]
+              : undefined,
+          header: row === 1 ? header[Math.floor(col / 2)] : undefined,
           style: styles[row][col],
         } as PropsType);
       } else {
@@ -71,14 +80,14 @@ function dataToProps({ // 객체 하나를 입력 받음.
   }
 
   return {
-    propsList, 
-    colNum: convColNum, 
-    rowNum: convRowNum, 
+    propsList,
+    colNum: convColNum,
+    rowNum: convRowNum,
     isDragMode: false,
     range: {
       columns: [],
       rows: [],
-      general: []
+      general: [],
     },
   };
 }
@@ -93,23 +102,60 @@ const PropsListSlice = createSlice({
     },
     changeCellRange(state, action: PayloadAction<SelectedCellInfo>) {
       const { shxxtName, selectedRow, selectedColumn } = action.payload;
-      const [startCellRow, startCellColumn] = state[shxxtName].range.general.pop()![0];
-      state[shxxtName].range.general.push([[startCellRow, startCellColumn], [selectedRow, selectedColumn]]);
+      const [startCellRow, startCellColumn] =
+        state[shxxtName].range.general.pop()![0];
+      state[shxxtName].range.general.push([
+        [startCellRow, startCellColumn],
+        [selectedRow, selectedColumn],
+      ]);
     },
-    startToSetCellRange(state, action:PayloadAction<SelectedCellInfo>) {
+    startToSetCellRange(state, action: PayloadAction<SelectedCellInfo>) {
       const { shxxtName, selectedRow, selectedColumn } = action.payload;
       state[shxxtName].isDragMode = true;
       state[shxxtName].range.general = [];
-      state[shxxtName].range.general.push([[selectedRow, selectedColumn], [selectedRow, selectedColumn]]);
+      state[shxxtName].range.general.push([
+        [selectedRow, selectedColumn],
+        [selectedRow, selectedColumn],
+      ]);
     },
-    endToSetCellRange(state, action:PayloadAction<SelectedCellInfo>) {
+    endToSetCellRange(state, action: PayloadAction<SelectedCellInfo>) {
       const { shxxtName, selectedRow, selectedColumn } = action.payload;
-      const [startCellRow, startCellColumn] = state[shxxtName].range.general.pop()![0];
-      state[shxxtName].range.general.push([[startCellRow, startCellColumn], [selectedRow, selectedColumn]]);
+      const [startCellRow, startCellColumn] =
+        state[shxxtName].range.general.pop()![0];
+      state[shxxtName].range.general.push([
+        [startCellRow, startCellColumn],
+        [selectedRow, selectedColumn],
+      ]);
       state[shxxtName].isDragMode = false;
+    },
+    startToSetColRange(state, action: PayloadAction<SelectedHeaderInfo>) {
+      const { shxxtName, headerIndex } = action.payload;
+      state[shxxtName].isDragMode = true;
+      state[shxxtName].range.columns = [];
+      state[shxxtName].range.columns.push([headerIndex, headerIndex]);
+    },
+    endToSetColRange(state, action: PayloadAction<SelectedHeaderInfo>) {
+      const { shxxtName, headerIndex } = action.payload;
+      const [startIndex, endIndex] = state[shxxtName].range.columns.pop()!;
+      // startIndex > headerIndex  일 때 어떻게 되는지 확인 후 처리
+      state[shxxtName].range.columns.push([startIndex, headerIndex]);
+      state[shxxtName].isDragMode = false;
+    },
+    changeColRange(state, action: PayloadAction<SelectedHeaderInfo>) {
+      const { shxxtName, headerIndex } = action.payload;
+      const [startIndex, endIndex] = state[shxxtName].range.columns.pop()!;
+      state[shxxtName].range.columns.push([startIndex, headerIndex]);
     },
   },
 });
 
-export const { addPropsList, changeCellRange, startToSetCellRange, endToSetCellRange } = PropsListSlice.actions;
+export const {
+  addPropsList,
+  changeCellRange,
+  startToSetCellRange,
+  endToSetCellRange,
+  startToSetColRange,
+  changeColRange,
+  endToSetColRange,
+} = PropsListSlice.actions;
 export default PropsListSlice.reducer;
